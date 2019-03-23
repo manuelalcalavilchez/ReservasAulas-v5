@@ -49,12 +49,13 @@ public class ControladorReservasAulas implements IControladorReservasAulas {
             this.vista.comenzar();
         }
        
-     //@Override
+     @Override
         public void salir(){
             modelo.escribirAulas();
             modelo.escribirProfesores();
             modelo.escribirReservas();
-            vista.salir();
+            System.out.println("Finalizado el programa");
+            
         }    
    
         
