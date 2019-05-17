@@ -89,10 +89,10 @@ public class PermanenciaPorTramo extends Permanencia implements Serializable{
             return false;
         }
         final PermanenciaPorTramo other = (PermanenciaPorTramo) obj;
-        if (this.tramo == other.tramo && this.dia==other.dia) {
+        if (this.tramo.equals(other.tramo)  && this.dia==other.dia) {
             return true;
         }
-        return true;
+        return false;
     }
     
         

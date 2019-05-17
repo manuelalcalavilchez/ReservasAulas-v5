@@ -238,21 +238,30 @@ private Reserva leerReserva(Profesor profesor) {
                      
                 String nombre = Consola.leerNombreProfesor();
 			Profesor profesor = controlador.buscarProfesor(new Profesor(nombre, CORREO_VALIDO));
-			if (profesor == null) {
+			/*if (profesor == null) {
 				throw new IllegalArgumentException();
-			} else {
-				Reserva reserva = leerReserva(profesor);
+			} else {  */
+				
+                        try {
+                             Reserva reserva = leerReserva(profesor);
 				if (reserva != null) {
                                     try {
                                         controlador.realizarReserva(reserva);
                                         System.out.println("Reserva Realizada");
-                                    } catch (OperationNotSupportedException ex) {
-                                        Logger.getLogger(VistaReservasAulas.class.getName()).log(Level.SEVERE, null, ex);
+                                    } catch (OperationNotSupportedException e) {
+                                        //Logger.getLogger(VistaReservasAulas.class.getName()).log(Level.SEVERE, null, ex);
+                                     System.out.println("ERROR: "+ e.getMessage());
                                     }
-				}
+				                       }
+
+            
+        } catch (Exception e) {
+                            System.out.println("ERROR: "+ e.getMessage());
+        }
+                        
 
 
-		}
+		
 	}
 
 

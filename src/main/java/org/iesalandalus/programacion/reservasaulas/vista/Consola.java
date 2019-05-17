@@ -76,7 +76,7 @@ public static String leerNombreAula() {
         }            
 
 public static Profesor leerProfesor() {
-		System.out.println("Introduce el nombre: ");
+		System.out.println("Introduce el nombre del profesor: ");
 		String nombre = Entrada.cadena();
           	System.out.println("Introduce el correo: ");
 		String correo = Entrada.cadena();
@@ -89,7 +89,7 @@ public static Profesor leerProfesor() {
 public static String leerNombreProfesor() {
 		String nombre;
 		do {
-			System.out.println("Introduce el nombre: ");
+			System.out.println("Introduce el nombre del profesor: ");
 			nombre = Entrada.cadena();
 		} while (nombre.trim().equals(""));
 		
