@@ -9,7 +9,7 @@ import java.util.List;
 import javax.naming.OperationNotSupportedException;
 import org.iesalandalus.programacion.reservasaulas.controlador.IControladorReservasAulas;
 import org.iesalandalus.programacion.reservasaulas.modelo.IModeloReservasAulas;
-import org.iesalandalus.programacion.reservasaulas.modelo.ModeloReservasAulas;
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.ficheros.ModeloReservasAulas;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Aula;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.permanencia.Permanencia;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Profesor;

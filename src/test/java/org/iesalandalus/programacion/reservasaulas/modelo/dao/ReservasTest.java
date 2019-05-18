@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.reservasaulas.modelo.dao;
 
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.ficheros.dao.Reservas;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;

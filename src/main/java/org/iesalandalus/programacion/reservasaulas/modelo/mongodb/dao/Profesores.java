@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.iesalandalus.programacion.reservasaulas.modelo.dao;
+package org.iesalandalus.programacion.reservasaulas.modelo.mongodb.dao;
 
+import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.ficheros.dao.*;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,8 +19,10 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.OperationNotSupportedException;
+import org.bson.Document;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Aula;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Profesor;
+import org.iesalandalus.programacion.reservasaulas.modelo.mongodb.utilidades.MongoDB;
 
 /**
  *
@@ -25,49 +30,34 @@ import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Profesor;
  */
 public class Profesores {
     
-    private static final String NOMBRE_FICHERO_PROFESORES = "ficheros/profesores.dat";
+    private static final String COLECCION = "profesores";
     
     //declaracion arraylist
-private List<Profesor> coleccionProfesores;
+private MongoCollection<Document> coleccionProfesores;
     
     //contructor por defecto
     
     public Profesores() {
-		coleccionProfesores = new ArrayList<>();
+		coleccionProfesores = MongoDB.getBD().getCollection(COLECCION);
 	}
     
-    //constructor copia
-	public Profesores (Profesores profesores) {
-		setProfesores(profesores);
-	}
-         
-    //implementar set
     
-    private void setProfesores(Profesores profesores) {
-		if (profesores == null) {
-			throw new IllegalArgumentException("No se pueden copiar profesores nulos.");
-		}
-		coleccionProfesores = copiaProfundaProfesores(profesores.coleccionProfesores);
-		
-    }
-    //copiaProfundaAulas
-
-    private List<Profesor> copiaProfundaProfesores(List<Profesor> profesores) {
-		List<Profesor> otrosProfesores = new ArrayList<>();
-		for (Profesor profesor : profesores){
-                    otrosProfesores.add(new Profesor(profesor));
-                }
-		return otrosProfesores;
-    }
     
-    //getAulas
+    
 	public List<Profesor> getProfesores() {
-		return copiaProfundaProfesores(coleccionProfesores);
+            
+            List<Profesor> profesores =new ArrayList<>();
+            
+            for(Document documentoProfesor:coleccionProfesores.find()){
+              
+                profesores.add(MongoDB.obtenerProfesorDesdeDocumento(documentoProfesor));
+            }
+	return profesores;
 	}
 	
     //getNumProfesores
 	public int getNumProfesores() {
-		return coleccionProfesores.size();
+		return (int) coleccionProfesores.countDocuments();
 	}
         
     //insertar profesores
@@ -76,11 +66,13 @@ private List<Profesor> coleccionProfesores;
 			throw new IllegalArgumentException("No se puede insertar un profesor nulo.");
 		}
                 
-		if (coleccionProfesores.contains(profesor))
+		if (buscar(profesor)!= null){
                         {
                             throw new OperationNotSupportedException("El profesor ya existe.");
                         }
-                else coleccionProfesores.add(new Profesor(profesor));
+                } else {
+                    coleccionProfesores.insertOne(MongoDB.obtenerDocumentoDesdeProfesor(profesor));
+                }
                 
 		
 	}
@@ -88,36 +80,38 @@ private List<Profesor> coleccionProfesores;
         
         //buscar profesor
         public Profesor buscar(Profesor profesor) {
-		int indice = coleccionProfesores.indexOf(profesor);
-		
-		if (indice != -1) {
-			return new Profesor (coleccionProfesores.get(indice));
-		} else {
-			return null;
-		}
+		 Document documentoProfesor=coleccionProfesores.find().filter(eq(MongoDB.NOMBRE,profesor.getNombre())).first();
+            return MongoDB.obtenerProfesorDesdeDocumento(documentoProfesor);
 	}
 
         //borrar profesor
        public void borrar(Profesor profesor) throws OperationNotSupportedException {
 		if (profesor == null) {
-			throw new IllegalArgumentException("No se puede borrar un profesor nulo.");
+			throw new IllegalArgumentException("No se puede borrar un profesor nula.");
 		}
                 
-                if (!coleccionProfesores.remove(profesor)) {
-			throw new OperationNotSupportedException("El profesor a borrar no existe.");
-		}
+                if (buscar(profesor)!=null)
+                {
+		
+                coleccionProfesores.deleteOne(eq(MongoDB.NOMBRE,profesor.getNombre()));
+                }
+                else{
+                    throw new OperationNotSupportedException("El profesor ha borrar no existe.");
+                }
 	}
         
        //Representar
         
-        public List<String> representar() {
+       public List<String> representar() {
 		List<String> representacion = new ArrayList<>();
-		for (Profesor profesor : coleccionProfesores){
-                    representacion.add(profesor.toString());
+		for ( Profesor profesor : getProfesores()){
+			representacion.add(profesor.toString());
 		}
 		return representacion;
+	
 	}
-                
+         
+/*       
         public void leer() {
 		File ficheroProfesores = new File(NOMBRE_FICHERO_PROFESORES);
 		try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(ficheroProfesores))) {
@@ -151,6 +145,7 @@ private List<Profesor> coleccionProfesores;
 			System.out.println("Error inesperado de Entrada/Salida");
 		}
 	}
+*/
 }
 
         

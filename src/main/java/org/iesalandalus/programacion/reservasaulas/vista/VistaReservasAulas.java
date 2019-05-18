@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.OperationNotSupportedException;
 //import modelo.ModeloReservasAulas;
-import org.iesalandalus.programacion.reservasaulas.modelo.ModeloReservasAulas;
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.ficheros.ModeloReservasAulas;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Aula;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.permanencia.Permanencia;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.permanencia.PermanenciaPorHora;

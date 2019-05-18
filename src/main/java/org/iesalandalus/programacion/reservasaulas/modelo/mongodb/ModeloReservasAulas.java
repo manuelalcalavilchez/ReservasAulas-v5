@@ -3,17 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.iesalandalus.programacion.reservasaulas.modelo;
+package org.iesalandalus.programacion.reservasaulas.modelo.mongodb;
 
+import org.iesalandalus.programacion.reservasaulas.modelo.dominio.ficheros.*;
 import java.util.List;
 import javax.naming.OperationNotSupportedException;
-import org.iesalandalus.programacion.reservasaulas.modelo.dao.Aulas;
-import org.iesalandalus.programacion.reservasaulas.modelo.dao.Profesores;
-import org.iesalandalus.programacion.reservasaulas.modelo.dao.Reservas;
+import org.iesalandalus.programacion.reservasaulas.modelo.IModeloReservasAulas;
+//import org.iesalandalus.programacion.reservasaulas.modelo.dominio.mongodb.dao.Aulas;
+//import org.iesalandalus.programacion.reservasaulas.modelo.dominio.mongodb.dao.Profesores;
+//import org.iesalandalus.programacion.reservasaulas.modelo.dominio.mongodb.dao.Reservas;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Aula;
+
+import org.iesalandalus.programacion.reservasaulas.modelo.mongodb.dao.Aulas;
+import org.iesalandalus.programacion.reservasaulas.modelo.mongodb.dao.Profesores;
+import org.iesalandalus.programacion.reservasaulas.modelo.mongodb.dao.Reservas;
+
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.permanencia.Permanencia;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Profesor;
 import org.iesalandalus.programacion.reservasaulas.modelo.dominio.Reserva;
+import org.iesalandalus.programacion.reservasaulas.modelo.mongodb.utilidades.MongoDB;
 //prueba para comprobacion de paquetes
 /**
  *
@@ -27,6 +35,7 @@ public class ModeloReservasAulas implements IModeloReservasAulas {
 	private Reservas reservas;
 	
 	public ModeloReservasAulas() {
+            MongoDB.establecerConexion();
 		this.profesores = new Profesores();
 		this.aulas = new Aulas();
 		this.reservas = new Reservas();
@@ -144,32 +153,32 @@ public class ModeloReservasAulas implements IModeloReservasAulas {
 
         @Override
 	public void leerAulas() {
-		aulas.leer();
+		//aulas.leer();
 	}
 	
 	@Override
 	public void escribirAulas() {
-		aulas.escribir();
+		//aulas.escribir();
 	}
 
         @Override
 	public void leerProfesores() {
-		profesores.leer();
+		//profesores.leer();
 	}
 	
 	@Override
 	public void escribirProfesores() {
-		profesores.escribir();
+		//profesores.escribir();
 	}
 
                 @Override
 	public void leerReservas() {
-		reservas.leer();
+		//reservas.leer();
 	}
 	
 	@Override
 	public void escribirReservas() {
-		reservas.escribir();
+		//reservas.escribir();
 	}
 
 
